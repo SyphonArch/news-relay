@@ -5,6 +5,28 @@ soldier = thecampy.Soldier('현재익', 2000_03_14, 2021_03_29)
 
 
 def send(subject, content):
+    content += '\n[FINISH]'
+    msg_num = 0
+    char_count = 0
+    enter_count = 0
+    buffer = []
+    for i, char in enumerate(content):
+        buffer.append(char)
+        char_count += 1
+        if char == '\n':
+            enter_count += 1
+
+        if char_count > 1495 or enter_count > 22 or i == len(content) - 1:
+            _send(subject + f" - {msg_num}", ''.join(buffer))
+
+            char_count = 0
+            enter_count = 0
+            buffer = []
+
+            msg_num += 1
+
+
+def _send(subject, content):
     try:
         msg = thecampy.Message(subject, content)
         tc = thecampy.client()

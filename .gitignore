@@ -131,4 +131,4 @@ dmypy.json
 .idea
 
 credentials.py
-log.txt
+/log

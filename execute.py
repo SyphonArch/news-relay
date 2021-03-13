@@ -46,7 +46,7 @@ for section in sections:
     overview.append(get_overview(section))
 
 
-def get_body_text(article, chars=250):
+def get_body_text(article, chars=300):
     html = str(article.find('div', {'id': 'articleBodyContents'}))
     edited_html = re.sub('<br/>', '\n', html)
     article_contents = BeautifulSoup(edited_html, 'html.parser').text
@@ -70,13 +70,17 @@ def get_details(section):
     return '\n'.join(details)
 
 
-overview_output = '\n'.join(overview)[:1495]
+overview_output = '\n'.join(overview)
 headline_section = sections[0]
-headlines_details_output = get_details(headline_section)[:1495]
-
-rslt1 = sender.send('[NEWS-RELAY] NEWS OVERVIEW', overview_output)
-rslt2 = sender.send('[NEWS-RELAY] ARTICLE SNIPPETS', headlines_details_output)
+headlines_details_output = get_details(headline_section)
 
 now = datetime.datetime.now()
-with open('log.txt', 'a') as f:
+rslt1 = sender.send(f'[NEWS-RELAY] NEWS OVERVIEW ({now.date()})', overview_output)
+rslt2 = sender.send(f'[NEWS-RELAY] ARTICLE SNIPPETS ({now.date()})', headlines_details_output)
+
+with open('log/executions.txt', 'a') as f:
     f.write(f"{now}: {rslt1}, {rslt2}\n")
+with open(f'log/{now.date()}_overview.txt', 'w') as f:
+    f.write(overview_output)
+with open(f'log/{now.date()}_details.txt', 'w') as f:
+    f.write(headlines_details_output)
