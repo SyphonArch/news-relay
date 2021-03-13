@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import re
 import sender
 import datetime
+import os
 
 base_address = 'https://news.naver.com/'
 
@@ -78,6 +79,9 @@ now = datetime.datetime.now()
 rslt1 = sender.send(f'[NEWS-RELAY] NEWS OVERVIEW ({now.date()})', overview_output)
 rslt2 = sender.send(f'[NEWS-RELAY] ARTICLE SNIPPETS ({now.date()})', headlines_details_output)
 
+
+if not os.path.isdir('log'):
+    os.mkdir('log')
 with open('log/executions.txt', 'a') as f:
     f.write(f"{now}: {rslt1}, {rslt2}\n")
 with open(f'log/{now.date()}_overview.txt', 'w') as f:
