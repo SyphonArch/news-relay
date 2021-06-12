@@ -1,7 +1,7 @@
 import thecampy
 from credentials import user_id, user_pw
 
-soldier = thecampy.Soldier('현재익', 2000_03_14, 2021_03_29)
+soldier = thecampy.Soldier('현재익', 2000_03_14, 2021_03_29, '육군훈련소')
 
 
 def send(subject, content):
@@ -32,7 +32,6 @@ def _send(subject, content):
         tc = thecampy.client()
         tc.login(user_id, user_pw)
 
-        add_result = tc.add_soldier(soldier)
         get_result = tc.get_soldier(soldier)
         send_result = tc.send_message(soldier, msg)
         return True
