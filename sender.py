@@ -28,6 +28,8 @@ def send(subject, content):
 
 def _send(subject, content):
     try:
+        content = '<p>' + content.replace('\n', '</p><p>') + '</p>'
+        content = content.replace('<p></p>', '<p>&nbsp</p>')
         msg = thecampy.Message(subject, content)
         tc = thecampy.client()
         tc.login(user_id, user_pw)
